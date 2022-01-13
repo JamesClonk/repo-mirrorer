@@ -12,28 +12,15 @@ fi
 
 # collect jcio repos
 echo "collecting [jamesclonk-io] repos ..."
+rm -f /tmp/jcio.txt || true
 curl -H 'Accept: application/vnd.github.v3+json' -s -H "Authorization: token ${GITHUB_TOKEN}" \
-	'https://api.github.com/orgs/jamesclonk-io/repos' | jq -r '.[].html_url' > jcio.txt
-echo "$(cat jcio.txt | wc -l) repos found."
-
-# collect jamesclonk repos
-echo "collecting [JamesClonk] repos ..."
-curl -H 'Accept: application/vnd.github.v3+json' -s -H "Authorization: token ${GITHUB_TOKEN}" \
-	'https://api.github.com/users/JamesClonk/repos?per_page=100&page=1' | jq -r '.[].html_url' > jamesclonk.txt
-curl -H 'Accept: application/vnd.github.v3+json' -s -H "Authorization: token ${GITHUB_TOKEN}" \
-	'https://api.github.com/users/JamesClonk/repos?per_page=100&page=2' | jq -r '.[].html_url' >> jamesclonk.txt
-curl -H 'Accept: application/vnd.github.v3+json' -s -H "Authorization: token ${GITHUB_TOKEN}" \
-	'https://api.github.com/users/JamesClonk/repos?per_page=100&page=3' | jq -r '.[].html_url' >> jamesclonk.txt
-curl -H 'Accept: application/vnd.github.v3+json' -s -H "Authorization: token ${GITHUB_TOKEN}" \
-	'https://api.github.com/users/JamesClonk/repos?per_page=100&page=4' | jq -r '.[].html_url' >> jamesclonk.txt
-curl -H 'Accept: application/vnd.github.v3+json' -s -H "Authorization: token ${GITHUB_TOKEN}" \
-	'https://api.github.com/users/JamesClonk/repos?per_page=100&page=5' | jq -r '.[].html_url' >> jamesclonk.txt
-echo "$(cat jamesclonk.txt | wc -l) repos found."
+	'https://api.github.com/orgs/jamesclonk-io/repos' | jq -r '.[].html_url' > /tmp/jcio.txt
+echo "$(cat /tmp/jcio.txt | wc -l) repos found."
 
 # clone jcio repos
-mkdir -p jcio || true
-pushd jcio
-for repo in $(cat ../jcio.txt); do
+mkdir -p /tmp/jcio || true
+pushd /tmp/jcio
+for repo in $(cat /tmp/jcio.txt); do
 	rm -rf repo || true
 	echo "cloning ${repo} ..."
 	git clone ${repo} repo
@@ -46,10 +33,25 @@ for repo in $(cat ../jcio.txt); do
 done
 popd
 
+# collect jamesclonk repos
+echo "collecting [JamesClonk] repos ..."
+rm -f /tmp/jamesclonk.txt || true
+curl -H 'Accept: application/vnd.github.v3+json' -s -H "Authorization: token ${GITHUB_TOKEN}" \
+	'https://api.github.com/users/JamesClonk/repos?per_page=100&page=1' | jq -r '.[].html_url' > /tmp/jamesclonk.txt
+curl -H 'Accept: application/vnd.github.v3+json' -s -H "Authorization: token ${GITHUB_TOKEN}" \
+	'https://api.github.com/users/JamesClonk/repos?per_page=100&page=2' | jq -r '.[].html_url' >> /tmp/jamesclonk.txt
+curl -H 'Accept: application/vnd.github.v3+json' -s -H "Authorization: token ${GITHUB_TOKEN}" \
+	'https://api.github.com/users/JamesClonk/repos?per_page=100&page=3' | jq -r '.[].html_url' >> /tmp/jamesclonk.txt
+curl -H 'Accept: application/vnd.github.v3+json' -s -H "Authorization: token ${GITHUB_TOKEN}" \
+	'https://api.github.com/users/JamesClonk/repos?per_page=100&page=4' | jq -r '.[].html_url' >> /tmp/jamesclonk.txt
+curl -H 'Accept: application/vnd.github.v3+json' -s -H "Authorization: token ${GITHUB_TOKEN}" \
+	'https://api.github.com/users/JamesClonk/repos?per_page=100&page=5' | jq -r '.[].html_url' >> /tmp/jamesclonk.txt
+echo "$(cat /tmp/jamesclonk.txt | wc -l) repos found."
+
 # clone jamesclonk repos
-mkdir -p jamesclonk || true
-pushd jamesclonk
-for repo in $(cat ../jamesclonk.txt); do
+mkdir -p /tmp/jamesclonk || true
+pushd /tmp/jamesclonk
+for repo in $(cat /tmp/jamesclonk.txt); do
 	rm -rf repo || true
 	echo "cloning ${repo} ..."
 	git clone ${repo} repo

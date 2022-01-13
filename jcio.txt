@@ -1,5 +1,0 @@
-https://github.com/jamesclonk-io/stdlib
-https://github.com/jamesclonk-io/content
-https://github.com/jamesclonk-io/jcio-frontend
-https://github.com/jamesclonk-io/moviedb-frontend
-https://github.com/jamesclonk-io/moviedb-backend
