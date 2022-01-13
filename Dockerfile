@@ -23,4 +23,4 @@ USER vcap
 WORKDIR /app
 COPY mirror.sh ./
 
-CMD ["/app/mirror.sh"]
+CMD ["./mirror.sh"]
