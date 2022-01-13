@@ -10,6 +10,9 @@ if [ -z "${GITLAB_TOKEN}" ]; then
 	exit 1
 fi
 
+# wait a bit
+sleep 33
+
 # collect jcio repos
 echo "collecting [jamesclonk-io] repos ..."
 rm -f /tmp/jcio.txt || true
